@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: ambassador
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE_USER: root
+    volumes:
+      - .dbdata:/var/lib/mysql
+    ports:
+      - 3306:3306
+  backend:
+    build: .
+    ports:
+      - 8000:8000
+    volumes:
+    - .:/app
+    depends_on:
+    - db
